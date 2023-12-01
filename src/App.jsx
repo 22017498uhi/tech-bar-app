@@ -1,9 +1,11 @@
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 
 
 import Login from './components/Login';
 import HeaderNav from './components/HeaderNav';
+import UserHome from './components/UserHome';
+import GlobalState from './context/GlobalState';
 
 //Import modules
 import {
@@ -60,6 +62,7 @@ function App() {
         setAuthenticated(false)
       }
     })
+
   }, []);
 
 
@@ -74,7 +77,7 @@ function App() {
           </Route>
 
           <Route path='/userhome' element={<PrivateRoute authenticated={authenticated} />} >
-            <Route exact path='/userhome' element={<QuestionPage />}></Route>
+            <Route exact path='/userhome' element={<UserHome />}></Route>
           </Route>
 
         </Routes>

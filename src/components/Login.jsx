@@ -22,7 +22,7 @@ function Login() {
                         signInWithPopup(auth, provider).then((resp) => {
                             if (resp.user) {
                                 //create user in firestore
-                                //so that we can use user's name and photo for chat window feature
+                                //so that we can use user's name and photo for chat window feature.
                                 //first add chatroom
                                 const userObj = {
                                     displayName: resp.user.displayName,
