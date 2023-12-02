@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { firestore, auth } from "../services/firebase";
 
-import { collection, onSnapshot, query, doc, getDoc, where, addDoc } from "firebase/firestore";
+import { collection, onSnapshot, query, doc, getDoc, where, addDoc, Timestamp } from "firebase/firestore";
 
 const CheckInPage = () => {
     const [users, setUsers] = useState([]);
@@ -17,10 +17,10 @@ const CheckInPage = () => {
 
         const unsubscribeUsers = onSnapshot(usersQuery, (snapshot) => {
 
-            const userArray = snapshot.docs.map((doc) => doc.data().displayName);
+            const userArray = snapshot.docs.map((doc) => {
+                return {...doc.data(),id: doc.id};
+            });
             setUsers(userArray);
-
-            console.log(userArray);
 
         });
 
@@ -28,7 +28,9 @@ const CheckInPage = () => {
 
         // Fetch reasons from Firestore (replace 'reasons' with your actual collection)
         const unsubscribeReasons = onSnapshot(reasonsQuery, (snapshot) => {
-            const reasonArray = snapshot.docs.map((doc) => doc.data().Label);
+            const reasonArray = snapshot.docs.map((doc) => {
+                return {...doc.data(),id: doc.id};
+            });
             setReasons(reasonArray);
         });
 
@@ -43,9 +45,9 @@ const CheckInPage = () => {
 
         //Add Check in into database
         addDoc(collection(firestore, "checkIns"), ({
-            user: selectedUser,
-            reason: selectedReason,
-            timestamp: new Date(),
+            user: doc(firestore, "users", selectedUser),
+            reason: doc(firestore, "reasons", selectedReason),
+            timestamp: Timestamp.fromDate(new Date()) //store current time,
         })).then(() => {
             // reset the values
             setSelectedUser('');
@@ -64,8 +66,8 @@ const CheckInPage = () => {
             <select value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
                 <option value="">Select User</option>
                 {users.map((user) => (
-                    <option key={user} value={user}>
-                        {user}
+                    <option key={user.id} value={user.id}>
+                        {user.displayName}
                     </option>
                 ))}
             </select>
@@ -76,8 +78,8 @@ const CheckInPage = () => {
             <select value={selectedReason} onChange={(e) => setSelectedReason(e.target.value)}>
                 <option value="">Select Reason</option>
                 {reasons.map((reason) => (
-                    <option key={reason} value={reason}>
-                        {reason}
+                    <option key={reason.id} value={reason.id}>
+                        {reason.Label}
                     </option>
                 ))}
             </select>
