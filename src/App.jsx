@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.scss';
+import 'remixicon/fonts/remixicon.css'
 
 
 import Login from './components/Login';
 import HeaderNav from './components/HeaderNav';
-import UserHome from './components/UserHome';
+
 import QueueListPage from './components/QueueListPage';
 import GlobalState from './context/GlobalState';
 
@@ -22,14 +23,16 @@ import { useEffect, useState } from 'react';
 
 import { auth } from './services/firebase';
 import CheckInPage from './components/CheckInPage';
+import Home from './components/Home';
+import SurveyPage from './components/SurveyPage';
 
 function PrivateRoute({authenticated}) {
   return (
     authenticated === true ? (
       <>
-      {/* pass globalstate only for headerNav */}
-      <GlobalState><HeaderNav /></GlobalState> 
-      <Outlet />
+      {/* show header only for Home page */}
+      <GlobalState> {window.location.pathname == "/home" ? ( <HeaderNav />): null }
+      <Outlet /></GlobalState>
       </>
     )
    : (
@@ -40,12 +43,30 @@ function PrivateRoute({authenticated}) {
   );
 }
 
+function PrivateRouteNoHeader({authenticated}) {
+  return (
+    authenticated === true ? (
+      <>
+      {/* pass globalstate only for headerNav */}
+      <GlobalState><HeaderNav /> 
+      <Outlet /></GlobalState>
+      </>
+    )
+   : (
+    <Navigate
+      to={{pathname:"/"}}
+      />
+  )
+  );
+}
+
+
 function PublicRoute({authenticated}) {
   return (
     authenticated === false ? (
       <Outlet />
     ) : (
-      <Navigate to="/userhome" />
+      <Navigate to="/home" />
     )
   );
 }
@@ -54,6 +75,9 @@ function App() {
 
   //Define states
   const [authenticated, setAuthenticated] = useState(false);
+
+
+
 
   useEffect( () => {
 
@@ -86,8 +110,8 @@ function App() {
             <Route exact path='/' element={<Login />}></Route>
           </Route>
 
-          <Route path='/userhome' element={<PrivateRoute authenticated={authenticated} />} >
-            <Route exact path='/userhome' element={<UserHome />}></Route>
+          <Route path='/home' element={<PrivateRoute authenticated={authenticated} />} >
+            <Route exact path='/home' element={<Home />}></Route>
           </Route>
 
           <Route path='/usercheckin' element={<PrivateRoute authenticated={authenticated} />} >
@@ -96,6 +120,10 @@ function App() {
 
           <Route path='/queuelist' element={<PrivateRoute authenticated={authenticated} />} >
             <Route exact path='/queuelist' element={<QueueListPage />}></Route>
+          </Route>
+
+          <Route path='/survey' element={<PrivateRoute authenticated={authenticated} />} >
+            <Route exact path='/survey' element={<SurveyPage />}></Route>
           </Route>
 
         </Routes>

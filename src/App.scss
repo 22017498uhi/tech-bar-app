@@ -2,7 +2,7 @@
 @import '~bootstrap/scss/bootstrap';
 
 .App {
-  text-align: center;
+ // text-align: center;
 }
 
 .App-logo {
@@ -31,6 +31,81 @@
   color: #61dafb;
 }
 
+
+
+//RP custom styles
+.login-btn-image {
+  background-color: white;
+  padding: 8px;
+  position: relative;
+  left: -20px;
+  top: 1px;
+  border: 1px solid #0d6efd;
+
+  img {
+    width: 22px;
+  }
+}
+
+.tb-small-font{
+  font-size: 12px;
+}
+
+.tb-full-width{
+ width: 100%;
+}
+
+.hr-lines{
+  position: relative;
+  max-width: 500px;
+  margin: 20px 0;
+  text-align: center;
+  &:before {
+    content:" ";
+    height: 2px;
+    width: 80px;
+    background: #AAAAAA;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+  }
+  &:after {
+    content:" ";
+    height: 2px;
+    width: 80px;
+    background: #AAAAAA;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+  }
+}
+
+
+//ScreenUserSelection Styles
+.tb-icon-card-header{
+  //height: 75px;
+  color: #fff;
+  text-align: center;
+  font-size: 60px;
+  padding-top: 10px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.tb-checkin-icon{
+ background: linear-gradient(60deg, #5E35B1, #039BE5);
+}
+
+.tb-queue-icon{
+  background: linear-gradient(60deg, #fb8c00, #FFCA29);
+ }
+
+ .tb-survey-icon{
+  background: linear-gradient(60deg, #43A047, #FFEB3B);
+ }
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -41,20 +116,6 @@
   }
 }
 
-
-//RP custom styles
-.login-btn-image {
-  background-color: white;
-  padding: 8px;
-  position: relative;
-  left: -13px;
-  top: 1px;
-  border: 1px solid #0d6efd;
-
-  img {
-    width: 22px;
-  }
-}
 
 //Define some animations
 @keyframes anvil {

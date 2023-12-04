@@ -3,6 +3,11 @@ import React from 'react';
 export default React.createContext({
 
     loggedInUser: {},
-    updateLoggedInUser: (userObj) => {}
+    updateLoggedInUser: (userObj) => {},
+
+    selectedAppLocation: {},
+    updateSelectedAppLocation: (locationObj) => {}
+
+    
     
 })

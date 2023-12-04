@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { firestore, auth } from "../services/firebase";
 
 import { collection, onSnapshot, query, doc, getDoc, where, addDoc } from "firebase/firestore";
 
+import appContext from '../context/context';
+
+
 const CheckInList = () => {
+
+  const { selectedAppLocation } = useContext(appContext); //updates logged in user when auth state changes, logged in user is used by other components
+
   const [checkIns, setCheckIns] = useState([]);
 
   useEffect(() => {
 
-    let queueQuery = query(collection(firestore, "checkIns"));
+    console.log(selectedAppLocation?.id);
+
+    const locationRef = doc(firestore,"locations", selectedAppLocation?.id);
+
+    let queueQuery = query(collection(firestore, "checkIns"), where("location", "==", locationRef));
 
    
     const unsubscribe = onSnapshot(queueQuery, (snapshot) => {

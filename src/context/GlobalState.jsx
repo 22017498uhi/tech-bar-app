@@ -3,9 +3,9 @@ import Context from "./context";
 
 export default class GlobalState extends React.Component {
     state = {
-        loggedInUser: {}
+        loggedInUser: {},
+        selectedAppLocation: {}
     }
-
 
     updateLoggedInUser = (userObj) => {
         this.setState({
@@ -13,12 +13,24 @@ export default class GlobalState extends React.Component {
         })
     }
 
+    updateSelectedAppLocation = (locationObj) => {
+        this.setState({
+            selectedAppLocation: locationObj
+        })
+    }
+
+ 
+
+
+
     render(){
         return (
             <Context.Provider
             value={{
                 loggedInUser: this.state.loggedInUser,
-                updateLoggedInUser: this.updateLoggedInUser
+                updateLoggedInUser: this.updateLoggedInUser,
+                selectedAppLocation: this.state.selectedAppLocation,
+                updateSelectedAppLocation: this.updateSelectedAppLocation
             }}
             >
                 {this.props.children}
