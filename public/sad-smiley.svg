@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 245 170 190">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-bad_face);
+      }
+
+      .cls-2, .cls-3 {
+        fill: #d9534f;
+      }
+
+      .cls-2 {
+        opacity: 0.3;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clip-bad_face">
+      <rect y="245" width="170" height="190"/>
+    </clipPath>
+  </defs>
+  <g id="bad_face" data-name="bad face" class="cls-1">
+    <rect class="cls-4" y="245" width="170" height="190"/>
+    <g id="Group_1" data-name="Group 1" transform="translate(-464.5 -223.5)">
+      <g id="bad_face-2" data-name="bad face" transform="translate(420.085 434.673)">
+        <ellipse id="Ellipse_3" data-name="Ellipse 3" class="cls-2" cx="56.919" cy="56.919" rx="56.919" ry="56.919" transform="translate(72.496 72.491)"/>
+        <g id="smiley" transform="translate(69.415 68.827)">
+          <path id="smile" class="cls-3" d="M68,15.742A52.258,52.258,0,1,0,120.258,68,52.255,52.255,0,0,0,68,15.742M68,8A60,60,0,1,1,8,68,60,60,0,0,1,68,8Z" transform="translate(-8 -8)"/>
+          <circle id="Ellipse_1" data-name="Ellipse 1" class="cls-3" cx="4.755" cy="4.755" r="4.755" transform="translate(40.071 39.08)"/>
+          <circle id="Ellipse_2" data-name="Ellipse 2" class="cls-3" cx="4.755" cy="4.755" r="4.755" transform="translate(70.499 39.08)"/>
+          <path id="smile-2" data-name="smile" class="cls-3" d="M.677,6.009c-2.78-4.3,3.719-8.508,6.5-4.2,12.932,20,34.777,19.991,47.7,0,2.788-4.311,9.279-.092,6.5,4.2-15.995,24.741-44.732,24.7-60.7,0Z" transform="translate(91.396 87.074) rotate(180)"/>
+        </g>
+      </g>
+      <g id="bad_face-3" data-name="bad face" transform="translate(419.085 433.673)">
+        <circle id="Ellipse_3-2" data-name="Ellipse 3" class="cls-2" cx="57.474" cy="57.474" r="57.474" transform="translate(72.526 72.526)"/>
+        <g id="smiley-2" data-name="smiley" transform="translate(69.415 68.827)">
+          <path id="smile-3" data-name="smile" class="cls-3" d="M68.585,15.817a52.768,52.768,0,1,0,52.768,52.768A52.764,52.764,0,0,0,68.585,15.817m0-7.817A60.585,60.585,0,1,1,8,68.585,60.585,60.585,0,0,1,68.585,8Z" transform="translate(-8 -8)"/>
+          <ellipse id="Ellipse_1-2" data-name="Ellipse 1" class="cls-3" cx="4.801" cy="4.801" rx="4.801" ry="4.801" transform="translate(40.461 39.461)"/>
+          <ellipse id="Ellipse_2-2" data-name="Ellipse 2" class="cls-3" cx="4.801" cy="4.801" rx="4.801" ry="4.801" transform="translate(71.187 39.461)"/>
+          <path id="smile-4" data-name="smile" class="cls-3" d="M.684,6.067C-2.123,1.725,4.439-2.523,7.249,1.823c13.058,20.2,35.116,20.186,48.166,0C58.23-2.53,64.784,1.73,61.98,6.067c-16.151,24.982-45.168,24.946-61.3,0Z" transform="translate(92.287 87.923) rotate(180)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

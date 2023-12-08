@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="473 0 170 190">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-good_face_selected);
+      }
+
+      .cls-2, .cls-3 {
+        fill: #5cb85c;
+      }
+
+      .cls-2 {
+        opacity: 0.4;
+      }
+
+      .cls-4, .cls-6 {
+        fill: none;
+      }
+
+      .cls-4 {
+        stroke: #5cb85c;
+        stroke-width: 2px;
+      }
+
+      .cls-5 {
+        stroke: none;
+      }
+
+      .cls-7 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clip-good_face_selected">
+      <rect x="473" width="170" height="190"/>
+    </clipPath>
+  </defs>
+  <g id="good_face_selected" data-name="good face selected" class="cls-1">
+    <rect class="cls-7" x="473" width="170" height="190"/>
+    <g id="Group_386" data-name="Group 386" transform="translate(336.937 -459.259)">
+      <g id="Group_382" data-name="Group 382" transform="translate(160.818 493.827)">
+        <ellipse id="Ellipse_3" data-name="Ellipse 3" class="cls-2" cx="57.419" cy="56.919" rx="57.419" ry="56.919" transform="translate(3.081 3.664)"/>
+        <g id="smiley" transform="translate(0)">
+          <path id="smile" class="cls-3" d="M68,15.742A52.258,52.258,0,1,0,120.258,68,52.255,52.255,0,0,0,68,15.742M68,8A60,60,0,1,1,8,68,60,60,0,0,1,68,8Z" transform="translate(-8 -8)"/>
+          <circle id="Ellipse_1" data-name="Ellipse 1" class="cls-3" cx="4.755" cy="4.755" r="4.755" transform="translate(40.071 39.08)"/>
+          <circle id="Ellipse_2" data-name="Ellipse 2" class="cls-3" cx="4.755" cy="4.755" r="4.755" transform="translate(70.499 39.08)"/>
+          <path id="smile-2" data-name="smile" class="cls-3" d="M.677,6.009c-2.78-4.3,3.719-8.508,6.5-4.2,12.932,20,34.777,19.991,47.7,0,2.788-4.311,9.279-.092,6.5,4.2-15.995,24.741-44.732,24.7-60.7,0Z" transform="translate(29.338 66.591)"/>
+        </g>
+      </g>
+      <g id="Ellipse_4" data-name="Ellipse 4" class="cls-4" transform="translate(210.357 463)">
+        <ellipse class="cls-5" cx="3.965" cy="4" rx="3.965" ry="4"/>
+        <ellipse class="cls-6" cx="3.965" cy="4" rx="2.965" ry="3"/>
+      </g>
+      <g id="Ellipse_7" data-name="Ellipse 7" class="cls-4" transform="translate(169.714 628)">
+        <ellipse class="cls-5" cx="4.957" cy="5" rx="4.957" ry="5"/>
+        <ellipse class="cls-6" cx="4.957" cy="5" rx="3.957" ry="4"/>
+      </g>
+      <path id="star" class="cls-3" d="M5.755.419,4.174,3.638.651,4.164a.781.781,0,0,0-.43,1.327l2.542,2.5-.611,3.535a.769.769,0,0,0,1.117.816l3.154-1.676L9.57,12.322a.776.776,0,0,0,1.12-.821L10.1,7.969,12.65,5.462a.777.777,0,0,0-.424-1.325L8.706,3.628,7.139.416A.77.77,0,0,0,5.755.419Z" transform="translate(171.237 463.843) rotate(-16)"/>
+      <path id="star-2" data-name="star" class="cls-3" d="M5.758.447,4.192,3.658.671,4.166A.777.777,0,0,0,.247,5.491L2.8,8,2.207,11.53a.776.776,0,0,0,1.121.821l3.147-1.661L9.63,12.367a.769.769,0,0,0,1.117-.816l-.611-3.535,2.542-2.495a.781.781,0,0,0-.43-1.327L8.724,3.669,7.142.45A.77.77,0,0,0,5.758.447Z" transform="translate(292.738 607.181) rotate(17)"/>
+      <path id="star-3" data-name="star" class="cls-2" d="M3.443.265,2.505,2.188.4,2.493a.465.465,0,0,0-.254.793l1.527,1.5L1.316,6.9a.463.463,0,0,0,.67.491l1.883-1,1.886,1a.461.461,0,0,0,.668-.489L6.058,4.794,7.58,3.3a.467.467,0,0,0-.257-.794L5.216,2.192,4.271.266A.46.46,0,0,0,3.443.265Z" transform="matrix(0.978, 0.208, -0.208, 0.978, 281.992, 486.804)"/>
+      <path id="star-4" data-name="star" class="cls-2" d="M3.443.265,2.505,2.188.4,2.493a.465.465,0,0,0-.254.793l1.527,1.5L1.316,6.9a.463.463,0,0,0,.67.491l1.883-1,1.886,1a.461.461,0,0,0,.668-.489L6.058,4.794,7.58,3.3a.467.467,0,0,0-.257-.794L5.216,2.192,4.271.266A.46.46,0,0,0,3.443.265Z" transform="matrix(0.978, 0.208, -0.208, 0.978, 256.218, 639.804)"/>
+      <path id="star-5" data-name="star" class="cls-2" d="M3.448.245,2.5,2.17.386,2.487a.467.467,0,0,0-.259.793L1.649,4.768,1.28,6.88a.459.459,0,0,0,.668.486l1.892-1,1.884.989A.466.466,0,0,0,6.4,6.861L6.043,4.752l1.532-1.5a.463.463,0,0,0-.253-.791l-2.109-.3L4.277.242A.462.462,0,0,0,3.448.245Z" transform="translate(137.063 505.975) rotate(-30)"/>
+      <path id="star-6" data-name="star" class="cls-2" d="M3.448.245,2.5,2.17.386,2.487a.467.467,0,0,0-.259.793L1.649,4.768,1.28,6.88a.459.459,0,0,0,.668.486l1.892-1,1.884.989A.466.466,0,0,0,6.4,6.861L6.043,4.752l1.532-1.5a.463.463,0,0,0-.253-.791l-2.109-.3L4.277.242A.462.462,0,0,0,3.448.245Z" transform="translate(146.976 636.975) rotate(-30)"/>
+    </g>
+  </g>
+</svg>

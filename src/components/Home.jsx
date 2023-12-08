@@ -63,7 +63,7 @@ function Home() {
                 <div className='col-md-10'>
                     {!selectedAppLocation?.id && <div className="tb-location-section">
                         <label className='mb-1 form-label'>Please select location of the Tech Bar:</label>
-                        <select required  className='form-select' value={selectedLocation} onChange={(e) => setLocationState(e.target.value)}>
+                        <select required  className='form-select shadow-sm' value={selectedLocation} onChange={(e) => setLocationState(e.target.value)}>
                             <option value="">--Select--</option>
                             {locations.map((location) => (
                                 <option key={location.id} value={location.id}>

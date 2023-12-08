@@ -106,6 +106,71 @@
  }
 
 
+//Queue List Page Styles
+.tb-queuepage-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: radial-gradient(#242424, #383838);
+    color: #FFFFFF;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.tb-queuelist-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-left: 80px;
+  padding-right: 80px;
+  width: 100%;
+  min-height: 500px;
+  overflow: hidden;
+
+  .left-content{
+    flex-grow: 1;
+    flex-basis: 48%;
+    width: 50%;
+  }
+  .right-content{
+    flex-grow: 1;
+    flex-basis: 48%;
+    width: 50%;
+  }
+
+  .tb-table-header{
+    margin-bottom: 25px;
+    padding: 0 30px;
+  }
+
+  .serving-list{
+    border-right-width: 1px;
+    border-right-color: #FFFFFF;
+    border-right-style: solid;
+
+    min-height: 400px;
+    height: 80%;
+  }
+
+  .queue-count{
+    font-size: 16px;
+  }
+
+  .checkin-time, .agent-name{
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
+
+//Smiley Page styles
+.smiley-wrapper{
+  min-width: 18%;
+  width: 120px;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
