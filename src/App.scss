@@ -1,8 +1,7 @@
-
 @import '~bootstrap/scss/bootstrap';
 
 .App {
- // text-align: center;
+  // text-align: center;
 }
 
 .App-logo {
@@ -47,21 +46,22 @@
   }
 }
 
-.tb-small-font{
-  font-size: 12px;
+.tb-small-font {
+  font-size: 16px;
 }
 
-.tb-full-width{
- width: 100%;
+.tb-full-width {
+  width: 100%;
 }
 
-.hr-lines{
+.hr-lines {
   position: relative;
   max-width: 500px;
   margin: 20px 0;
   text-align: center;
+
   &:before {
-    content:" ";
+    content: " ";
     height: 2px;
     width: 80px;
     background: #AAAAAA;
@@ -70,8 +70,9 @@
     top: 50%;
     left: 0;
   }
+
   &:after {
-    content:" ";
+    content: " ";
     height: 2px;
     width: 80px;
     background: #AAAAAA;
@@ -84,7 +85,7 @@
 
 
 //ScreenUserSelection Styles
-.tb-icon-card-header{
+.tb-icon-card-header {
   //height: 75px;
   color: #fff;
   text-align: center;
@@ -93,33 +94,34 @@
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }
-.tb-checkin-icon{
- background: linear-gradient(60deg, #5E35B1, #039BE5);
+
+.tb-checkin-icon {
+  background: linear-gradient(60deg, #5E35B1, #039BE5);
 }
 
-.tb-queue-icon{
+.tb-queue-icon {
   background: linear-gradient(60deg, #fb8c00, #FFCA29);
- }
+}
 
- .tb-survey-icon{
+.tb-survey-icon {
   background: linear-gradient(60deg, #43A047, #FFEB3B);
- }
+}
 
 
 //Queue List Page Styles
-.tb-queuepage-container{
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: radial-gradient(#242424, #383838);
-    color: #FFFFFF;
-    overflow-x: hidden;
-    overflow-y: auto;
+.tb-queuepage-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: radial-gradient(#242424, #383838);
+  color: #FFFFFF;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.tb-queuelist-container{
+.tb-queuelist-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -129,23 +131,24 @@
   min-height: 500px;
   overflow: hidden;
 
-  .left-content{
-    flex-grow: 1;
-    flex-basis: 48%;
-    width: 50%;
-  }
-  .right-content{
+  .left-content {
     flex-grow: 1;
     flex-basis: 48%;
     width: 50%;
   }
 
-  .tb-table-header{
+  .right-content {
+    flex-grow: 1;
+    flex-basis: 48%;
+    width: 50%;
+  }
+
+  .tb-table-header {
     margin-bottom: 25px;
     padding: 0 30px;
   }
 
-  .serving-list{
+  .serving-list {
     border-right-width: 1px;
     border-right-color: #FFFFFF;
     border-right-style: solid;
@@ -154,21 +157,45 @@
     height: 80%;
   }
 
-  .queue-count{
+  .queue-count {
     font-size: 16px;
   }
 
-  .checkin-time, .agent-name{
+  .checkin-time,
+  .agent-name {
     font-size: 20px;
     line-height: 30px;
   }
 }
 
 //Smiley Page styles
-.smiley-wrapper{
+.smiley-wrapper {
   min-width: 18%;
   width: 120px;
 }
+
+//Book Appointment Component styles
+.tb-appointment-component {
+  
+  .not-allowed-cursor{
+    cursor: not-allowed; 
+  }
+}
+
+
+.tb-apt-modal{
+  .blank {
+    height: 0 !important;
+    display: none;
+  }
+  .appointment{
+    height:40px !important;
+  }
+  .appointment-picker__col{
+    padding: 0 5px;
+  }
+}
+
 
 
 @keyframes App-logo-spin {
@@ -189,11 +216,13 @@
     opacity: 0;
     box-shadow: 0 0 0 rgba(241, 241, 241, 0);
   }
+
   1% {
     transform: scale(0.96) translateY(10px);
     opacity: 0;
     box-shadow: 0 0 0 rgba(241, 241, 241, 0);
   }
+
   100% {
     transform: scale(1) translateY(0px);
     opacity: 1;
@@ -202,13 +231,15 @@
 }
 
 
-@keyframes myscale{
+@keyframes myscale {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1.1);
   }

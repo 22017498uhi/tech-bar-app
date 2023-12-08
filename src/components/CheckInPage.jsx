@@ -4,7 +4,7 @@ import { firestore, auth } from "../services/firebase";
 
 import { collection, onSnapshot, query, doc, getDoc, where, addDoc, Timestamp, getCountFromServer } from "firebase/firestore";
 
-import Button from 'react-bootstrap/Button';
+
 import Modal from 'react-bootstrap/Modal';
 
 import appContext from '../context/context';

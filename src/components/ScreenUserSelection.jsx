@@ -11,7 +11,7 @@ function ScreenUserSelection() {
 
     return (
         <div>
-            <hr/>
+          
             <div className="row">
                 <div className="col-md-4">
                     <div className="card shadow mb-3" role="button" onClick={() => {navigate("/usercheckin")}}>

@@ -6,6 +6,7 @@ import { collection, onSnapshot, query, doc, getDoc, where, addDoc, Timestamp } 
 
 import appContext from '../context/context';
 import ScreenUserSelection from './ScreenUserSelection';
+import BookAppointment from './BookAppointment';
 
 
 function Home() {
@@ -15,10 +16,10 @@ function Home() {
     const [locations, setLocations] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState('');
 
-    
+
     useEffect(() => {
 
-     
+
 
         console.log(selectedAppLocation);
 
@@ -61,9 +62,19 @@ function Home() {
 
                 {/* Location selection Section */}
                 <div className='col-md-10'>
+
+                    {/* Appointment User Message */}
+                    <div className='mb-2'>
+                        <h1>Welcome to Tech Bar!</h1>
+
+                    </div>
+
                     {!selectedAppLocation?.id && <div className="tb-location-section">
-                        <label className='mb-1 form-label'>Please select location of the Tech Bar:</label>
-                        <select required  className='form-select shadow-sm' value={selectedLocation} onChange={(e) => setLocationState(e.target.value)}>
+
+
+
+                        <label className='mt-3 mb-1 form-label h5'>Please select location of the Tech Bar:</label>
+                        <select required className='form-select shadow-sm' value={selectedLocation} onChange={(e) => setLocationState(e.target.value)}>
                             <option value="">--Select--</option>
                             {locations.map((location) => (
                                 <option key={location.id} value={location.id}>
@@ -73,30 +84,34 @@ function Home() {
                         </select>
                     </div>}
 
-                    <div className="tb-content-section">
+                    {selectedAppLocation?.id && <div className="tb-content-section card mt-5">
 
                         {/* show this if current user is a screen user
                 i.e user used for tablet and big tv for checkin, queue list and survey */}
-                        {selectedAppLocation?.id && <div>
+                        <div className='card-header'>
                             <div>
                                 <span className="fs-3 me-2">{selectedAppLocation.label}</span>
                                 <span ><a href='#' className="tb-small-font" onClick={setLocationState}>Change location</a></span>
                             </div>
-                        </div>}
+                        </div>
 
-                    </div>
+                        <div className='card-body'>
+                        {/* Screen user Section */}
+                        <div className='tb-screen-user-section mt-3'>
 
+                            {loggedInUser?.screenUser && selectedAppLocation?.id && <ScreenUserSelection></ScreenUserSelection>}
+                        </div>
 
-                    {/* Screen user Section */}
-                    <div className='tb-screen-user-section mt-3'>
-                        
-                       {selectedAppLocation?.id && <ScreenUserSelection></ScreenUserSelection>} 
-                    </div>
+                        {/* Normal user Appointment Section */}
+                        <div className='tb-appointment-section'>
 
-                    {/* Normal user Appointment Section */}
-                    <div className='tb-appointment-section'>
+                            {!loggedInUser?.screenUser && selectedAppLocation?.id && <BookAppointment></BookAppointment>}
+                        </div>
 
-                    </div>
+                        </div>
+
+                    </div>}
+
 
 
                 </div>

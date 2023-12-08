@@ -126,6 +126,8 @@ function App() {
             <Route exact path='/survey' element={<SurveyPage />}></Route>
           </Route>
 
+          
+
         </Routes>
         </Router>
     </div>
