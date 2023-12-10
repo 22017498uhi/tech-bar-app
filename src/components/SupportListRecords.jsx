@@ -116,7 +116,7 @@ function SupportListRecords(props) {
         <div>
             <div>
                 <div className="mx-4 my-3">
-                    <h3>Assigned to me</h3>
+                    <h3>{props.navMenuDisplayName}</h3>
                 </div>
                 <div className="">
                     <table className="table table-responsive table-striped table-hover table-borderless">
@@ -134,7 +134,7 @@ function SupportListRecords(props) {
 
                         <tbody >
                             {recordList && recordList.map((record, index) => (
-                                <tr>
+                                <tr onClick={()=>{props.setSelectedCheckInRecord(record.id)}}>
                                     <td></td>
                                     <td>
                                         {index + 1}

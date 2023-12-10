@@ -8,6 +8,7 @@ import appContext from '../context/context';
 
 import moment from 'moment';
 import SupportListRecords from './SupportListRecords';
+import SupportRecordDetails from './SupportRecordDetails';
 
 
 function SupportAgentUI() {
@@ -17,9 +18,22 @@ function SupportAgentUI() {
 
     const [selectedFeature, setSelectedFeature] = useState('inbox');
 
+    //stores id of selected navigation menu
     const [selectedNavMenu, setSelectedNavMenu] = useState('assigned_me');
 
+    //stores display Name of selected navigation menu
+    const [selectedNavMenuDisplayName, setSelectedNavMenuDisplayName] = useState('Assigned to me');
+
+
     const [selectedCheckInRecord, setSelectedCheckInRecord] = useState('');
+
+    //Nav menu Items
+    const navMenuItems = {};
+    navMenuItems.assigned_me = 'Assigned to me';
+    navMenuItems.open_unassigned = 'Open - Unassigned';
+    navMenuItems.future_apt = 'Future Appointments';
+    navMenuItems.all = 'All';
+    
 
     useEffect(() => {
 
@@ -32,7 +46,15 @@ function SupportAgentUI() {
     }
 
     function selectNavMenu(menuName) {
-        //set menu state used in buiding appropriate FB query
+
+        //clear the recordid if any, coz user clicked on menu item
+        //we dont want to show record detail
+        setSelectedCheckInRecord('');
+
+        //set displayName
+        setSelectedNavMenuDisplayName(navMenuItems[menuName]);
+
+        //set menu state 
         setSelectedNavMenu(menuName);
 
     }
@@ -95,14 +117,14 @@ function SupportAgentUI() {
 
             {/* Main content Pane */}
             <div className="right-side">
-                {/* List of Records section */}
-                {selectedFeature == 'list' && 
-                    <SupportListRecords selectedNavMenu={selectedNavMenu}></SupportListRecords>
+                {/* List of Records section - show only if any record is not selected */}
+                {selectedFeature == 'list' &&  !selectedCheckInRecord && 
+                    <SupportListRecords selectedNavMenu={selectedNavMenu} navMenuDisplayName={selectedNavMenuDisplayName} setSelectedCheckInRecord={setSelectedCheckInRecord}></SupportListRecords>
                 }
 
                 {/* If record is opened either from inbox or list, show its details */}
                 {selectedCheckInRecord && 
-                    <div>SELECETED reocrd etaisl</div>}
+                    <SupportRecordDetails recordId={selectedCheckInRecord}></SupportRecordDetails>}
             </div>
 
         </div>
