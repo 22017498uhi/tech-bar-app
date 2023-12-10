@@ -7,6 +7,7 @@ import { collection, onSnapshot, query, doc, getDoc, where, addDoc, Timestamp } 
 import appContext from '../context/context';
 import ScreenUserSelection from './ScreenUserSelection';
 import BookAppointment from './BookAppointment';
+import SupportAgentUI from './SupportAgentUI';
 
 
 function Home() {
@@ -57,19 +58,20 @@ function Home() {
 
 
     return (
-        <div className='container mt-5'>
+        <div className='container-fluid mt-3 px-5'>
             <div className='row justify-content-center'>
 
                 {/* Location selection Section */}
-                <div className='col-md-10'>
+                <div className='col-md-12'>
 
                     {/* Appointment User Message */}
                     <div className='mb-2'>
-                        <h1>Welcome to Tech Bar!</h1>
+                       {!loggedInUser?.supportAgent == true && <h1>Welcome to Tech Bar!</h1> }
+                       {loggedInUser?.supportAgent == true && <h3>Tech Bar Support</h3> }
 
                     </div>
 
-                    {!selectedAppLocation?.id && <div className="tb-location-section">
+                    {!selectedAppLocation?.id && <div className="tb-location-section col-md-4">
 
 
 
@@ -84,7 +86,7 @@ function Home() {
                         </select>
                     </div>}
 
-                    {selectedAppLocation?.id && <div className="tb-content-section card mt-5">
+                    {selectedAppLocation?.id && <div className="tb-content-section card mt-3">
 
                         {/* show this if current user is a screen user
                 i.e user used for tablet and big tv for checkin, queue list and survey */}
@@ -95,18 +97,22 @@ function Home() {
                             </div>
                         </div>
 
-                        <div className='card-body'>
+                        <div className=''>
                         {/* Screen user Section */}
-                        <div className='tb-screen-user-section mt-3'>
+                        {loggedInUser?.screenUser && selectedAppLocation?.id && <div className='tb-screen-user-section mt-3 card-body'>
+                             <ScreenUserSelection></ScreenUserSelection>
+                        </div>}
 
-                            {loggedInUser?.screenUser && selectedAppLocation?.id && <ScreenUserSelection></ScreenUserSelection>}
-                        </div>
+                        {/* Normal user Appointment Section - show if its not screen user or support agent */}
+                        { (!loggedInUser?.screenUser &&  !loggedInUser?.supportAgent) && selectedAppLocation?.id && <div className='tb-appointment-section mt-3 card-body'>
+                             <BookAppointment></BookAppointment>
+                        </div> }
 
-                        {/* Normal user Appointment Section */}
-                        <div className='tb-appointment-section'>
+                        {/* Support Agent Section */}
+                        {loggedInUser?.supportAgent && selectedAppLocation?.id &&  <div className='tb-supportagent-section'>
+                           <SupportAgentUI></SupportAgentUI>
+                        </div>}
 
-                            {!loggedInUser?.screenUser && selectedAppLocation?.id && <BookAppointment></BookAppointment>}
-                        </div>
 
                         </div>
 

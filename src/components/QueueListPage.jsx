@@ -76,6 +76,20 @@ const CheckInList = () => {
         setTimeout(() => {
 
           console.log(queueDataArr);
+
+          //filter records - keep only today's records
+          //so that we dont show future appointments in queue
+          queueDataArr =  queueDataArr.filter((ele) => {
+            var today = new Date();
+            today.setHours(23);
+
+            var todayVal = today.valueOf();
+            var timeStamp = ele.timestampDate.valueOf();
+
+            return (timeStamp < todayVal );
+
+          })
+
           //sort the chatrooms newest to oldest. firebase doesnot support sort when query is on differnt field. i.e user
           queueDataArr.sort((a, b) => {
             return ((new Date(a.timestampDate).valueOf()) - (new Date(b.timestampDate).valueOf()));
@@ -109,7 +123,7 @@ const CheckInList = () => {
   return (
     <div className='tb-queuepage-container' >
       {/* Location and Time section */}
-      <div className='d-flex justify-content-between ms-5 me-5 mt-5 '>
+      <div className='d-flex justify-content-between ms-5 me-5 mt-3 '>
         <div>
           <label>Location:</label>
           <div className='h5'>{selectedAppLocation.label}</div>
@@ -165,7 +179,12 @@ const CheckInList = () => {
                 <div className='d-flex justify-content-between align-items-center mb-4'>
                  
                   <span className='display-6'>{index+1}. {checkIn.userDetails.displayName}</span>
-                  <span className='checkin-time'>{ moment( checkIn.timestamp.toDate() ).format('h:mm a')}</span>
+
+                  {/* special calendar icon display to differntiate appointments */}
+                  {checkIn?.isAppointment && <span className='checkin-time badge rounded-pill text-bg-light'><span><i class="ri-calendar-2-line"></i></span> { moment( checkIn.timestamp.toDate() ).format('hh:mm a')}</span>}
+
+                  {/* Normal display if its a checkin */}
+                  {!checkIn?.isAppointment && <span className='checkin-time'>{ moment( checkIn.timestamp.toDate() ).format('hh:mm a')}</span>}
                 </div>
               </div>
             ))}

@@ -176,22 +176,24 @@
 
 //Book Appointment Component styles
 .tb-appointment-component {
-  
-  .not-allowed-cursor{
-    cursor: not-allowed; 
+
+  .not-allowed-cursor {
+    cursor: not-allowed;
   }
 }
 
 
-.tb-apt-modal{
+.tb-apt-modal {
   .blank {
     height: 0 !important;
     display: none;
   }
-  .appointment{
-    height:40px !important;
+
+  .appointment {
+    height: 40px !important;
   }
-  .appointment-picker__col{
+
+  .appointment-picker__col {
     padding: 0 5px;
   }
 }
@@ -206,6 +208,100 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+//Support Agent UI Component Styles
+.support-agent-ui-comp {
+  height: 70vh;
+  display: flex;
+
+  .left {
+    height: 100%;
+    display: flex;
+  }
+
+  .sidebar {
+    //width: 80px;
+    height: 100%;
+    background-image: linear-gradient(-225deg, #898bfe 0%, #d1aaff 48%, #e299f3 100%);
+    display: flex;
+
+    .wrapper {
+      padding: 0 10px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+
+      .icon-items {
+        font-size: 30px;
+        line-height: 30px;
+        width: 50px;
+        height: 50px;
+        padding: 5px 8px;
+        color: aliceblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover{
+          border: 1px solid aliceblue;
+          border-radius: 50%;
+          
+          background: #303030;
+        }
+      }
+
+
+
+      .selected{
+        border: 1px solid aliceblue;
+        border-radius: 50%;
+        //padding: 5px 8px;
+        background: #242424;
+      }
+    }
+
+  }
+
+  .navigation {
+    width: 270px;
+    border-right: 1px solid #ddd;
+
+    .wrapper {
+      padding: 0 25px;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .nav-menu-items{
+      font-size: 18px;
+      color:#252525;
+      i{
+        font-size: 22px;
+      }
+    }
+
+    .selected{
+      color:#5E35B1;
+      font-weight: 700;
+    }
+
+    table{
+      width: 100%;
+    }
+  }
+
+  .right-side{
+   background-color: #f9f9f9;
+    width: 100%;
+    //padding: 8px 30px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+
+
+
 }
 
 
