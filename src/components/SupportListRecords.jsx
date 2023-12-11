@@ -118,7 +118,14 @@ function SupportListRecords(props) {
                 <div className="mx-4 my-3">
                     <h3>{props.navMenuDisplayName}</h3>
                 </div>
-                <div className="">
+
+                {/* Msg if No records matching query */}
+               {recordList.length == 0 && <div className='mt-4 mx-4 d-flex justify-content-center'>
+                <div className='flex-grow-1 tb-no-record border text-center shadow'>No Records Found!</div>
+               </div> }
+
+                {/* Show records in table layout */}
+              {recordList.length > 0 &&  <div className="">
                     <table className="table table-responsive table-striped table-hover table-borderless">
                         <thead >
                             <tr>
@@ -164,7 +171,7 @@ function SupportListRecords(props) {
                         </tbody>
 
                     </table>
-                </div>
+                </div>}
             </div>
         </div>
     )

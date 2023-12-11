@@ -243,6 +243,10 @@
         justify-content: center;
         align-items: center;
 
+        .rounded-pill{
+          font-size: 12px;
+        }
+
         &:hover{
           border: 1px solid aliceblue;
           border-radius: 50%;
@@ -283,7 +287,7 @@
 
     .selected{
       color:#5E35B1;
-      font-weight: 700;
+      font-weight: 700;   
     }
 
     table{
@@ -298,6 +302,18 @@
     display: flex;
     flex-direction: column;
     overflow: auto;
+
+    .inbox-empty{
+      background: -webkit-linear-gradient(160deg, #6c6eff 0%, #e54eff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .tb-no-record{
+      font-size: 24px;
+      padding: 50px;
+    }
   }
 
 
