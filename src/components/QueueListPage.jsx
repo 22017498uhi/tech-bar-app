@@ -34,7 +34,7 @@ const CheckInList = () => {
 
   useEffect(() => {
 
-    console.log(selectedAppLocation?.id);
+    //console.log(selectedAppLocation?.id);
 
     const locationRef = doc(firestore, "locations", selectedAppLocation?.id);
 
@@ -52,10 +52,16 @@ const CheckInList = () => {
 
         let userDoc = getDoc(doc.data().user);
         let reasonDoc = getDoc(doc.data().reason);
+        let agentDoc;
+
+            if (doc.data().agent)
+                agentDoc = getDoc(doc.data().agent);
 
 
         promises.push(userDoc);
         promises.push(reasonDoc);
+        if (agentDoc)
+                promises.push(agentDoc);
 
 
         finalQueueDataObj = {
@@ -64,7 +70,12 @@ const CheckInList = () => {
           timestampDate: doc.data().timestamp.toDate(),
           userDetails: await userDoc.then((d) => d.data()),
           reasonDetails: await reasonDoc.then((d) => d.data())
+          
         }
+
+        //fetch agent details if present
+        if (agentDoc)
+          finalQueueDataObj.agentDetails = await agentDoc.then((d) => d.data())
 
 
         queueDataArr.push(finalQueueDataObj);
@@ -158,7 +169,7 @@ const CheckInList = () => {
                 <div className='d-flex justify-content-between align-items-center mb-4'>
                  
                   <span className='display-6'>{index+1}. {checkIn.userDetails.displayName}</span>
-                  <span className='agent-name'>John Doe</span>
+                  <span className='agent-name'>{checkIn?.agentDetails?.displayName}</span>
                 </div>
               </div>
             ))}

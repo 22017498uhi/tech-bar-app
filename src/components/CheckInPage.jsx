@@ -19,20 +19,11 @@ const CheckInPage = () => {
     const [selectedReason, setSelectedReason] = useState('');
 
     const [positionInQueue, setPositionInQueue] = useState('');
-
     const [errorMessage, setErrorMessage] = useState('');
-
     const [showPopup, setShowPopup] = useState(false);
-
-
-
-
-
 
     useEffect(() => {
         // Fetch users from Firestore (replace 'users' with your actual collection)
-
-
 
         let usersQuery = query(collection(firestore, "users"));
 
@@ -84,7 +75,7 @@ const CheckInPage = () => {
             //find position in queue
             const locationRef = doc(firestore, "locations", selectedAppLocation?.id);
 
-            let queueQuery = query(collection(firestore, "checkIns"), where("location", "==", locationRef));
+            let queueQuery = query(collection(firestore, "checkIns"), where("location", "==", locationRef),where("stage","==","in_queue"));
 
             const snapCheckins = await getCountFromServer(queueQuery);
 
