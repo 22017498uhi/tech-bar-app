@@ -148,7 +148,7 @@ function SupportAgentUI() {
         setSelectedNavMenu(menuName);
     }
 
-    //trigger reredner when user closed their record, this is so that our inbox feature becomes realtime
+    //trigger reredner when user closed their record, this is so that our inbox feature becomes realtime.
     function triggerRerender(){
 
         //clear the selected record
@@ -223,7 +223,7 @@ function SupportAgentUI() {
                         {/* Inbox Content */}
                         {selectedFeature == 'inbox' &&
                             <div>
-                              { (inboxRecords.length> 0) && (agentCurrentRecordCount < AGENT_CAPACITY)  &&  <div className='card my-2'>
+                              { ( (inboxRecords.length> 0) && (agentCurrentRecordCount < AGENT_CAPACITY) ) ?  <div className='card my-2'>
                                     {/* <h3>{agentCurrentRecordCount}</h3>
                                     <h4>inbox record {inboxRecords.length}</h4> */}
                                     <div className='card-body'>
@@ -237,6 +237,20 @@ function SupportAgentUI() {
                                     </div>
                                     <div className='mb-2 mt-2 text-center'>
                                         <button className='btn btn-sm btn-outline-success px-5' onClick={acceptRecord}>Accept</button>
+                                    </div>
+                                </div> :
+                                // Show empty state message
+                                <div>
+                                    <div className='tb-empty-inbox text-center mt-5'>
+                                        <div className='fs-1' style={{color:'#8789fe'}}>
+                                        <i class="ri-file-list-2-line"></i>
+                                            </div>
+                                            <div>
+                                               <b>No inbox items</b> 
+                                                </div>
+                                                <small>
+                                                    Work items will appear here, once they are assgined to you.
+                                                    </small>
                                     </div>
                                 </div> }
                             </div>}
