@@ -9,6 +9,7 @@ import appContext from '../context/context';
 import moment from 'moment';
 import SupportListRecords from './SupportListRecords';
 import SupportRecordDetails from './SupportRecordDetails';
+import ReportsUI from './ReportsUI';
 
 
 function SupportAgentUI() {
@@ -194,8 +195,10 @@ function SupportAgentUI() {
                     </div>
                 </div>
 
+                {/* Reports Section */}
+
                 {/* Side Navigation */}
-                <div className="navigation">
+              { (selectedFeature == 'list' || selectedFeature == 'inbox') && <div className="navigation">
                     <div className="wrapper">
                         {/* List Content  */}
                         {selectedFeature == 'list' && <div className="mt-4">
@@ -255,17 +258,16 @@ function SupportAgentUI() {
                                 </div> }
                             </div>}
 
-                        {/* Reports Content */}
-                        {selectedFeature == 'reports' && <div>
-                            Reports Content
-                        </div>}
+                       
 
                     </div>
-                </div>
+                </div> }
 
             </div>
 
             {/* Main content Pane */}
+
+
             <div className="right-side">
 
                 {/* Empty message when inbox is selected and no record is open */}
@@ -285,6 +287,7 @@ function SupportAgentUI() {
 
                     </div>}
 
+                
 
                 {/* List of Records section - show only if any record is not selected */}
                 {selectedFeature == 'list' && !selectedCheckInRecord &&
@@ -294,6 +297,10 @@ function SupportAgentUI() {
                 {/* If record is opened either from inbox or list, show its details */}
                 {selectedCheckInRecord &&
                     <SupportRecordDetails recordId={selectedCheckInRecord} triggerRerender={triggerRerender}></SupportRecordDetails>}
+
+                 {/* Reports Content */}
+                 {selectedFeature == 'reports' && <ReportsUI></ReportsUI> }
+
             </div>
 
         </div>
