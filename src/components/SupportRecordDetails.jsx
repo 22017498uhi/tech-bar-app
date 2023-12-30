@@ -204,7 +204,9 @@ function SupportRecordDetails(props) {
                 {/* Title Part */}
                 <div className='d-flex justify-content-start align-items-center'>
                     <h3 className='me-2'>Record Details</h3>
-                    <span className='badge rounded-pill text-bg-dark'>{recordDetails.type}</span>
+                    <span className='badge rounded-pill text-bg-dark me-1'>{recordDetails.type}</span>
+                    {recordDetails?.appointment_type == 'remote'? <span class="badge rounded-pill text-bg-dark">Remote</span> : <span class="badge rounded-pill text-bg-dark">In-person</span>} 
+
                 </div>
                 {/* Buttons Part - only if not complete or cancelled */}
                 {recordDetails.stage != 'cancelled' && recordDetails.stage != 'completed' && <div>

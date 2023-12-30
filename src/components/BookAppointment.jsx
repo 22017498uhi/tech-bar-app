@@ -8,7 +8,7 @@ import { AppointmentPicker } from 'react-appointment-picker';
 import Modal from 'react-bootstrap/Modal';
 import Toast from 'react-bootstrap/Toast';
 
-import { Button, ToastContainer } from 'react-bootstrap';
+import { Form, Button, ToastContainer } from 'react-bootstrap';
 
 import moment from 'moment';
 
@@ -20,6 +20,7 @@ function BookAppointment() {
 
     const [reasons, setReasons] = useState([]);
     const [selectedReason, setSelectedReason] = useState('');
+    const [selectedAptType , setSelectedAptType] = useState('in_person');
 
     //stores list of upcoming appointments of the user
     const [aptList, setAptList] = useState([]);
@@ -31,9 +32,10 @@ function BookAppointment() {
     const [aptCancelMsg, setAptCancelMsg] = useState(false);
 
 
+
     const [showPopup, setShowPopup] = useState(false);
 
-   
+
 
 
     const loading = false;
@@ -213,6 +215,7 @@ function BookAppointment() {
             location: doc(firestore, "locations", selectedAppLocation.id),
             user: doc(firestore, "users", loggedInUser.email),
             reason: doc(firestore, "reasons", selectedReason),
+            appointment_type: selectedAptType,
             stage: 'in_queue',
             isAppointment: true,
             timestamp: Timestamp.fromDate(new Date(aptDate)) //store selected apt datetime,
@@ -221,6 +224,7 @@ function BookAppointment() {
             setAptDate('');
             setAptDateDisplay('');
             setSelectedReason('');
+            setSelectedAptType('in_person');
             setAptBookedMsg(true);
 
             //hide appt message after 3 seconds
@@ -250,6 +254,7 @@ function BookAppointment() {
         }, 3000);
     }
 
+    
 
     return (
         <div className='tb-appointment-component  mx-5 mb-5'>
@@ -273,7 +278,41 @@ function BookAppointment() {
 
                 </div>
 
-                <div className='mt-5'>
+                <div className='mt-3 mb-1'>Appointment type</div>
+
+                <Form.Check
+                    inline
+                    label="In-person"
+                    name="inperson"
+                    type="radio"
+                    id="inperson"
+                    value="in_person"
+                    onChange={()=>{setSelectedAptType('in_person')}}
+                    checked={selectedAptType == 'in_person'}
+                />
+
+                <Form.Check
+                    inline
+                    label="Remote"
+                    name="remote"
+                    type="radio"
+                    id="remote"
+                    value="remote"
+                    onChange={()=>{setSelectedAptType('remote')}}
+                    checked={selectedAptType == 'remote'}
+                />
+
+                {/* <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inperson" value="in_person" checked/>
+                    <label class="form-check-label" for="inperson">In-person</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="remote" value="remote" />
+                    <label class="form-check-label" for="remote">Remote</label>
+                </div> */}
+
+
+                <div className='mt-4'>
                     <button className='btn btn-primary shadow' disabled={!(aptDate && selectedReason)} onClick={storeAptFirebase}>Schedule appointment</button>
                 </div>
 
@@ -296,13 +335,15 @@ function BookAppointment() {
 
                 {aptList.length == 0 && <div className='alert alert-light'>
                     You do not have any upcoming appointments!
-                    </div>}
+                </div>}
 
 
                 {aptList && aptList.map((aptObj, index) => (
                     <div className='card px-3 py-3 mb-2'>
-                        <div>
-                            <span><b>Reason:</b> </span> <span>{aptObj.reasonDetails.Label}</span>
+                        <div className='d-flex justify-content-between'>
+                            <div><span><b>Reason:</b> </span> <span>{aptObj.reasonDetails.Label}</span></div>
+                            <div>{aptObj?.appointment_type == 'remote'? <span class="badge text-bg-dark">Remote</span> : <span class="badge text-bg-dark">In-person</span>} </div>
+                            
                         </div>
                         <div>
                             <div class="input-group mt-3" >
