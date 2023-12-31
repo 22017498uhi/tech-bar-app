@@ -150,7 +150,7 @@ const CheckInList = () => {
       <div>
         <div className='mb-5 text-center'>
           <img src='/logo-no-background.png' height={52} width={300}></img>
-          <div className='text-center mt-3 h3'>Wellcome to {selectedAppLocation.label} Tech Bar!</div>
+          <div className='text-center mt-3 h3'>Welcome to {selectedAppLocation.label} Tech Bar!</div>
         </div>
       </div>
 

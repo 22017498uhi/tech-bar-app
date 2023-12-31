@@ -42,7 +42,7 @@ function SurveyPage() {
 
 
     return (
-        <div className='container' style={{ marginTop: '20%' }}>
+        <div className='container' style={{ marginTop: '10%' }}>
 
             <div className='row justify-content-center'>
                 <div className={`col-md-9`}>
