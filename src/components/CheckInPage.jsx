@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { firestore, auth } from "../services/firebase";
+import { firestore } from "../services/firebase";
 
-import { collection, onSnapshot, query, doc, getDoc, where, addDoc, Timestamp, getCountFromServer } from "firebase/firestore";
-
+import { collection, onSnapshot, query, doc, where, addDoc, Timestamp, getCountFromServer } from "firebase/firestore";
 
 import Modal from 'react-bootstrap/Modal';
 
@@ -23,8 +22,8 @@ const CheckInPage = () => {
     const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
-        // Fetch users from Firestore (replace 'users' with your actual collection)
 
+        // Fetch users from Firestore
         let usersQuery = query(collection(firestore, "users"));
 
         const unsubscribeUsers = onSnapshot(usersQuery, (snapshot) => {
@@ -38,7 +37,7 @@ const CheckInPage = () => {
 
         let reasonsQuery = query(collection(firestore, "reasons"));
 
-        // Fetch reasons from Firestore (replace 'reasons' with your actual collection)
+        // Fetch reasons from Firestore
         const unsubscribeReasons = onSnapshot(reasonsQuery, (snapshot) => {
             const reasonArray = snapshot.docs.map((doc) => {
                 return { ...doc.data(), id: doc.id };
@@ -71,7 +70,6 @@ const CheckInPage = () => {
             setSelectedReason('');
             setErrorMessage('');
 
-
             //find position in queue
             const locationRef = doc(firestore, "locations", selectedAppLocation?.id);
 
@@ -79,16 +77,13 @@ const CheckInPage = () => {
 
             const snapCheckins = await getCountFromServer(queueQuery);
 
-
             setPositionInQueue(snapCheckins.data().count);
 
             //show confiramtion popup
             setShowPopup(true);
 
             //hide popup after 5 seconds
-            setTimeoutToCloseModal(5000);
-
-            
+            setTimeoutToCloseModal(5000);            
         })
 
     };
@@ -105,7 +100,7 @@ const CheckInPage = () => {
                 <div className='col-md-9'>
                     {/* brand logo */}
                     <div className='mb-5 text-center'>
-                        <img src='/logo-no-background.png' height={52} width={300}></img>
+                        <img src='/logo-no-background.png' height={52} width={300} alt='Tech Bar Logo'></img>
                     </div>
                     <h5 className='mb-4 text-center'>Welcome! Please check in below to add yourself to the queue.</h5>
                     <label className="form-label">Select User:</label>
@@ -140,9 +135,7 @@ const CheckInPage = () => {
 
             {/* User checkin to queue confirmation message */}
             <Modal show={showPopup} backdrop="static" keyboard={false} >
-                {/*<Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                        </Modal.Header> */}
+                
                 <Modal.Body>
                     <div className='text-center mt-5'>
                         <b>Thanks for checking in!</b> you are...

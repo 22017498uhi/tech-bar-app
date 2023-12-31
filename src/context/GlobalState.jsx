@@ -19,19 +19,15 @@ export default class GlobalState extends React.Component {
         })
     }
 
- 
-
-
-
-    render(){
+    render() {
         return (
             <Context.Provider
-            value={{
-                loggedInUser: this.state.loggedInUser,
-                updateLoggedInUser: this.updateLoggedInUser,
-                selectedAppLocation: this.state.selectedAppLocation,
-                updateSelectedAppLocation: this.updateSelectedAppLocation
-            }}
+                value={{
+                    loggedInUser: this.state.loggedInUser,
+                    updateLoggedInUser: this.updateLoggedInUser,
+                    selectedAppLocation: this.state.selectedAppLocation,
+                    updateSelectedAppLocation: this.updateSelectedAppLocation
+                }}
             >
                 {this.props.children}
             </Context.Provider>

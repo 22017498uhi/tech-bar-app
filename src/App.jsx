@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.scss';
 import 'remixicon/fonts/remixicon.css'
 
@@ -26,42 +25,29 @@ import CheckInPage from './components/CheckInPage';
 import Home from './components/Home';
 import SurveyPage from './components/SurveyPage';
 
-function PrivateRoute({authenticated}) {
-  return (
-    authenticated === true ? (
-      <>
-      {/* show header only for Home page */}
-      <GlobalState> {window.location.pathname == "/home" ? ( <HeaderNav />): null }
-      <Outlet /></GlobalState>
-      </>
-    )
-   : (
-    <Navigate
-      to={{pathname:"/"}}
-      />
-  )
-  );
-}
 
-function PrivateRouteNoHeader({authenticated}) {
+
+//take user to private route if authenticated.
+function PrivateRoute({ authenticated }) {
   return (
     authenticated === true ? (
       <>
-      {/* pass globalstate only for headerNav */}
-      <GlobalState><HeaderNav /> 
-      <Outlet /></GlobalState>
+        {/* show header only for Home page */}
+        <GlobalState> {window.location.pathname === "/home" ? (<HeaderNav />) : null}
+          <Outlet /></GlobalState>
       </>
     )
-   : (
-    <Navigate
-      to={{pathname:"/"}}
-      />
-  )
+      : (
+        <Navigate
+          to={{ pathname: "/" }}
+        />
+      )
   );
 }
 
 
-function PublicRoute({authenticated}) {
+//take user to public route if not authenticated.
+function PublicRoute({ authenticated }) {
   return (
     authenticated === false ? (
       <Outlet />
@@ -73,29 +59,24 @@ function PublicRoute({authenticated}) {
 
 function App() {
 
-  //Define states
+  //flag that says if user is authenticated or not. this will be used to show public or private routes accordingly.
   const [authenticated, setAuthenticated] = useState(false);
 
 
 
 
-  useEffect( () => {
+  useEffect(() => {
 
+    //when user logs in or out, it will get triggered and set state accordingly.
     onAuthStateChanged(auth, (user) => {
-
-      console.log('auth state chagned');
-      console.log(user);
-
-      if(user){
-        console.log('autheedaacr')
+      if (user) {
         setAuthenticated(true)
-      }else {
-        console.log('false login');
+      } else {
         setAuthenticated(false)
       }
     })
 
-    
+
 
   }, []);
 
@@ -126,10 +107,10 @@ function App() {
             <Route exact path='/survey' element={<SurveyPage />}></Route>
           </Route>
 
-          
+
 
         </Routes>
-        </Router>
+      </Router>
     </div>
   );
 }

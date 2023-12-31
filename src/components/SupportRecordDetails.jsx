@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { firestore, auth } from "../services/firebase";
+import { firestore } from "../services/firebase";
 
-import { collection, onSnapshot, query, doc, getDoc, where, addDoc, updateDoc } from "firebase/firestore";
+import { onSnapshot, doc, getDoc, updateDoc } from "firebase/firestore";
 
 import appContext from '../context/context';
 
@@ -10,35 +10,27 @@ import moment from 'moment';
 
 
 
-
-
 function SupportRecordDetails(props) {
 
-    const { loggedInUser, selectedAppLocation } = useContext(appContext); //updates logged in user when auth state changes, logged in user is used by other components
+    const { loggedInUser } = useContext(appContext); //updates logged in user when auth state changes, logged in user is used by other components
 
+    const [recordDetails, setRecordDetails] = useState(''); //stores record details coming from firebase
 
+    const [resNotes, setResNotes] = useState(''); //value of res notes textarea
 
-    const [recordDetails, setRecordDetails] = useState('');
+    const [formMsg, setFormMsg] = useState(''); //stores form message
 
-    const [resNotes, setResNotes] = useState('');
-
-    const [formMsg, setFormMsg] = useState('');
-
-    const [formMsgError, setFormMsgError] = useState('');
+    const [formMsgError, setFormMsgError] = useState(''); //stores form error message
 
 
 
     useEffect(() => {
 
-        console.log('gte single record FB');
-
+        //fetch the checkin record from firebase
         const recordRef = doc(firestore, 'checkIns', props.recordId);
         const unsubscribeFb = onSnapshot(recordRef, async (doc) => {
 
-            
-
             let promises = [];
-
             var finalRecordDataObj = {};
 
             let userDoc = getDoc(doc.data().user);
@@ -48,7 +40,6 @@ function SupportRecordDetails(props) {
 
             if (doc.data().agent)
                 agentDoc = getDoc(doc.data().agent);
-
 
             promises.push(userDoc);
             promises.push(reasonDoc);
@@ -65,15 +56,11 @@ function SupportRecordDetails(props) {
                 userDetails: await userDoc.then((d) => d.data()),
                 reasonDetails: await reasonDoc.then((d) => d.data()),
                 locationDetails: await locationDoc.then((d) => d.data())
-
             }
 
-             //set resnotes state if value there
-             if (finalRecordDataObj.resolutionNotes)
+            //set resnotes state if value there
+            if (finalRecordDataObj.resolutionNotes)
                 setResNotes(finalRecordDataObj.resolutionNotes);
-         
-
-
 
             //fetch agent details if present
             if (agentDoc)
@@ -83,34 +70,26 @@ function SupportRecordDetails(props) {
             finalRecordDataObj.type = finalRecordDataObj.isAppointment ? 'Appointment' : 'Check-in';
 
             //populate Stage Text
-            if (finalRecordDataObj.stage == 'in_queue')
+            if (finalRecordDataObj.stage === 'in_queue')
                 finalRecordDataObj.stageText = 'In Queue';
-            else if (finalRecordDataObj.stage == 'serving')
+            else if (finalRecordDataObj.stage === 'serving')
                 finalRecordDataObj.stageText = 'Serving';
-            else if (finalRecordDataObj.stage == 'completed')
+            else if (finalRecordDataObj.stage === 'completed')
                 finalRecordDataObj.stageText = 'Completed';
-            else if (finalRecordDataObj.stage == 'cancelled')
+            else if (finalRecordDataObj.stage === 'cancelled')
                 finalRecordDataObj.stageText = 'Cancelled';
-
-            console.log(finalRecordDataObj);
 
             Promise.all(promises).then((d) => {
 
                 setTimeout(() => {
-
-                   
-
                     setRecordDetails(finalRecordDataObj);
-
-                    console.log(finalRecordDataObj);
                 })
-
             });
-
         });
 
         return () => unsubscribeFb();
     }, [props.recordId]);
+
 
     //assign the record to the agent
     async function acceptTheRecord() {
@@ -132,6 +111,7 @@ function SupportRecordDetails(props) {
             setFormMsg('');
         }, 2000);
     }
+
 
     //save the record - i.e res notes , all other things readonly
     async function saveTheRecord() {
@@ -171,18 +151,11 @@ function SupportRecordDetails(props) {
             stage: 'completed'
         });
 
-        
-
         setFormMsg('Record closed.');
 
         //hide msg after few seconds
         setTimeout(() => {
-            //clear fields
-            //setResNotes('');
-
             setFormMsg('');
-
-
             //inform outer Component so that it refreshes inbox
             //and prompts them to take new record
             props.triggerRerender();
@@ -195,7 +168,6 @@ function SupportRecordDetails(props) {
 
 
 
-
     return (
         <div>
 
@@ -205,11 +177,11 @@ function SupportRecordDetails(props) {
                 <div className='d-flex justify-content-start align-items-center'>
                     <h3 className='me-2'>Record Details</h3>
                     <span className='badge rounded-pill text-bg-dark me-1'>{recordDetails.type}</span>
-                  {recordDetails?.appointment_type == 'remote'? <span class="badge rounded-pill text-bg-dark">Remote</span> : <span class="badge rounded-pill text-bg-dark">In-person</span>} 
+                    {recordDetails?.appointment_type === 'remote' ? <span class="badge rounded-pill text-bg-dark">Remote</span> : <span class="badge rounded-pill text-bg-dark">In-person</span>}
 
                 </div>
                 {/* Buttons Part - only if not complete or cancelled */}
-                {recordDetails.stage != 'cancelled' && recordDetails.stage != 'completed' && <div>
+                {recordDetails.stage !== 'cancelled' && recordDetails.stage !== 'completed' && <div>
                     {!recordDetails.agentDetails && <button className='btn btn-outline-primary me-3' onClick={acceptTheRecord} >Accept</button>}
                     <button className='btn btn-outline-primary me-3' onClick={saveTheRecord}>Save</button>
                     <button className='btn btn-outline-primary' onClick={completeTheRecord}>Complete</button>
@@ -274,7 +246,7 @@ function SupportRecordDetails(props) {
                     <div className='px-4 mx-4'>
 
                         <label for="resnotes" class="form-label">Resolution notes</label>
-                        <textarea value={resNotes} onChange={handleResNotesChange} class="form-control form-control-sm" disabled={(recordDetails.stage == 'completed' || recordDetails.stage == 'cancelled') ? true : false} id="resnotes" rows="3"></textarea>
+                        <textarea value={resNotes} onChange={handleResNotesChange} class="form-control form-control-sm" disabled={(recordDetails.stage === 'completed' || recordDetails.stage === 'cancelled') ? true : false} id="resnotes" rows="3"></textarea>
 
                     </div>
 

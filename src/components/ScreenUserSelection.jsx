@@ -5,13 +5,8 @@ function ScreenUserSelection() {
 
     const navigate = useNavigate();
 
-    function navigateToPage (){
-
-    }
-
     return (
         <div>
-          
             <div className="row">
                 <div className="col-md-4">
                     <div className="card shadow mb-3" role="button" onClick={() => {navigate("/usercheckin")}}>

@@ -4,8 +4,6 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPasswor
 import { doc, setDoc } from "firebase/firestore";
 import { firestore, auth } from "../services/firebase";
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 
 function Login() {
 
@@ -49,8 +47,6 @@ function Login() {
                 setErrorMessage("Passwords don't match.");
                 return;
             }
-
-            //await createUserWithEmailAndPassword(auth, email, password);
 
             // Create user account
             createUserWithEmailAndPassword(auth, email, password).then((resp) => {
@@ -101,7 +97,7 @@ function Login() {
                     {isSignUp && <div>
                         <div className="mb-3">
                             <label htmlFor="displayname" className="form-label">Display name</label>
-                            <input type="text" required className="form-control" id="displayname" placeholder="Enter your display name" 
+                            <input type="text" required className="form-control" id="displayname" placeholder="Enter your display name"
                                 value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
 
                         </div>

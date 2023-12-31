@@ -8,6 +8,4 @@ export default React.createContext({
     selectedAppLocation: {},
     updateSelectedAppLocation: (locationObj) => {}
 
-    
-    
 })

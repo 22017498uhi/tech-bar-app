@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { firestore, auth } from "../services/firebase";
+import { firestore } from "../services/firebase";
 
-import { collection, onSnapshot, query, doc, getDoc, where, addDoc } from "firebase/firestore";
+import { collection, onSnapshot, query, doc, getDoc, where } from "firebase/firestore";
 
 import appContext from '../context/context';
 
@@ -22,30 +22,24 @@ const CheckInList = () => {
 
 
   //get current date and time - update every second
-    setInterval(() => {
-      setCurrentDate (moment().format('dddd, MMM Do '));
-      setCurrentTime (moment().format('h:mm a'));
-    }, 1000);
-  
+  setInterval(() => {
+    setCurrentDate(moment().format('dddd, MMM Do '));
+    setCurrentTime(moment().format('h:mm a'));
+  }, 1000);
 
-  
-    
-  
 
   useEffect(() => {
 
-    //console.log(selectedAppLocation?.id);
 
     const locationRef = doc(firestore, "locations", selectedAppLocation?.id);
 
+    //fetch currently serving or in queue records for the selected location
     let queueQuery = query(collection(firestore, "checkIns"), where("location", "==", locationRef), where('stage', 'in', ['serving', 'in_queue']));
-
 
     const unsubscribe = onSnapshot(queueQuery, (snapshot) => {
 
       let promises = [];
       let queueDataArr = [];
-
 
       snapshot.docs.forEach(async (doc) => {
         var finalQueueDataObj = {};
@@ -54,14 +48,14 @@ const CheckInList = () => {
         let reasonDoc = getDoc(doc.data().reason);
         let agentDoc;
 
-            if (doc.data().agent)
-                agentDoc = getDoc(doc.data().agent);
+        if (doc.data().agent)
+          agentDoc = getDoc(doc.data().agent);
 
 
         promises.push(userDoc);
         promises.push(reasonDoc);
         if (agentDoc)
-                promises.push(agentDoc);
+          promises.push(agentDoc);
 
 
         finalQueueDataObj = {
@@ -70,38 +64,35 @@ const CheckInList = () => {
           timestampDate: doc.data().timestamp.toDate(),
           userDetails: await userDoc.then((d) => d.data()),
           reasonDetails: await reasonDoc.then((d) => d.data())
-          
+
         }
 
         //fetch agent details if present
         if (agentDoc)
           finalQueueDataObj.agentDetails = await agentDoc.then((d) => d.data())
 
-
         queueDataArr.push(finalQueueDataObj);
-        //return { id: doc.id, ...doc.data() }
+
       });
 
       Promise.all(promises).then((d) => {
 
         setTimeout(() => {
 
-          console.log(queueDataArr);
-
           //filter records - keep only today's records
           //so that we dont show future appointments in queue
-          queueDataArr =  queueDataArr.filter((ele) => {
+          queueDataArr = queueDataArr.filter((ele) => {
             var today = new Date();
             today.setHours(23);
 
             var todayVal = today.valueOf();
             var timeStamp = ele.timestampDate.valueOf();
 
-            return (timeStamp < todayVal );
+            return (timeStamp < todayVal);
 
           })
 
-          //sort the chatrooms newest to oldest. firebase doesnot support sort when query is on differnt field. i.e user
+          //sort  newest to oldest. firebase doesnot support sort when query is on differnt field. i.e location and stage
           queueDataArr.sort((a, b) => {
             return ((new Date(a.timestampDate).valueOf()) - (new Date(b.timestampDate).valueOf()));
           })
@@ -109,26 +100,23 @@ const CheckInList = () => {
 
           //find all checkins with "in_queue" stage
           let inQueueArr = queueDataArr.filter((ele) => {
-            return ele.stage == 'in_queue';
+            return ele.stage === 'in_queue';
           })
           setCheckIns(inQueueArr);
 
           //Now find all checkins with "serving" stage
           let servingsArr = queueDataArr.filter((ele) => {
-            return ele.stage == 'serving';
+            return ele.stage === 'serving';
           })
           setServings(servingsArr);
 
         })
       })
 
-
-
     });
 
-
-
     return () => unsubscribe();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -149,7 +137,7 @@ const CheckInList = () => {
       {/* Brand and Welcome Section */}
       <div>
         <div className='mb-5 text-center'>
-          <img src='/logo-no-background.png' height={52} width={300}></img>
+          <img src='/logo-no-background.png' height={52} width={300} alt='Tech Bar logo'></img>
           <div className='text-center mt-3 h3'>Welcome to {selectedAppLocation.label} Tech Bar!</div>
         </div>
       </div>
@@ -162,18 +150,18 @@ const CheckInList = () => {
             <h2 className='h4'>Agent</h2>
           </div>
           <div className='ps-4 pe-4 serving-list'>
-          
-            {servings && servings.map((checkIn,index) => (
+
+            {servings && servings.map((checkIn, index) => (
 
               <div key={checkIn.id} >
                 <div className='d-flex justify-content-between align-items-center mb-4'>
-                 
-                  <span className='display-6'>{index+1}. {checkIn.userDetails.displayName}</span>
+
+                  <span className='display-6'>{index + 1}. {checkIn.userDetails.displayName}</span>
                   <span className='agent-name'>{checkIn?.agentDetails?.displayName}</span>
                 </div>
               </div>
             ))}
-          
+
           </div>
 
         </section>
@@ -183,23 +171,23 @@ const CheckInList = () => {
             <h2 className='h4'>Time</h2>
           </div>
           <div className='ps-4'>
-          
-            {checkIns && checkIns.map((checkIn,index) => (
+
+            {checkIns && checkIns.map((checkIn, index) => (
 
               <div key={checkIn.id} >
                 <div className='d-flex justify-content-between align-items-center mb-4'>
-                 
-                  <span className='display-6'>{index+1}. {checkIn.userDetails.displayName}</span>
+
+                  <span className='display-6'>{index + 1}. {checkIn.userDetails.displayName}</span>
 
                   {/* special calendar icon display to differntiate appointments */}
-                  {checkIn?.isAppointment && <span className='checkin-time badge rounded-pill text-bg-light'><span><i class="ri-calendar-2-line"></i></span> { moment( checkIn.timestamp.toDate() ).format('hh:mm a')}</span>}
+                  {checkIn?.isAppointment && <span className='checkin-time badge rounded-pill text-bg-light'><span><i class="ri-calendar-2-line"></i></span> {moment(checkIn.timestamp.toDate()).format('hh:mm a')}</span>}
 
                   {/* Normal display if its a checkin */}
-                  {!checkIn?.isAppointment && <span className='checkin-time'>{ moment( checkIn.timestamp.toDate() ).format('hh:mm a')}</span>}
+                  {!checkIn?.isAppointment && <span className='checkin-time'>{moment(checkIn.timestamp.toDate()).format('hh:mm a')}</span>}
                 </div>
               </div>
             ))}
-          
+
           </div>
 
         </section>

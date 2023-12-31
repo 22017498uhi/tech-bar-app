@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { firestore, auth } from "../services/firebase";
+import { firestore } from "../services/firebase";
 
-import { collection, onSnapshot, query, doc, getDoc, where, addDoc, getDocs, getCountFromServer, updateDoc } from "firebase/firestore";
+import { collection, onSnapshot, query, doc, getDoc, where, getCountFromServer, updateDoc } from "firebase/firestore";
 
 import appContext from '../context/context';
 
-import moment from 'moment';
 import SupportListRecords from './SupportListRecords';
 import SupportRecordDetails from './SupportRecordDetails';
 import ReportsUI from './ReportsUI';
@@ -15,7 +14,6 @@ import ReportsUI from './ReportsUI';
 function SupportAgentUI() {
 
     const { loggedInUser, selectedAppLocation } = useContext(appContext); //updates logged in user when auth state changes, logged in user is used by other components
-
 
     const [selectedFeature, setSelectedFeature] = useState('inbox');
 
@@ -44,9 +42,7 @@ function SupportAgentUI() {
     const AGENT_CAPACITY = 1;
 
 
-
-
-    useEffect( () => {
+    useEffect(() => {
 
         const locationRef = doc(firestore, "locations", selectedAppLocation?.id);
         const userRef = doc(firestore, "users", loggedInUser.email);
@@ -54,17 +50,15 @@ function SupportAgentUI() {
         let promises = [];
 
         //Fetch active/serving records assigned to the agent
-        let agentRecordsQuery = query(collection(firestore, "checkIns"), where("location", "==", locationRef),where("agent", "==", userRef), where("stage", "==", "serving"));
-        var agentRecSnap =   getCountFromServer(agentRecordsQuery);
+        let agentRecordsQuery = query(collection(firestore, "checkIns"), where("location", "==", locationRef), where("agent", "==", userRef), where("stage", "==", "serving"));
+        var agentRecSnap = getCountFromServer(agentRecordsQuery);
 
         promises.push(agentRecSnap);
 
-
         let unsubscribeFb;
 
-        
+        //fetch in queue records for the selected location
         let queueQuery = query(collection(firestore, "checkIns"), where("location", "==", locationRef), where("stage", "==", "in_queue"));
-
 
         unsubscribeFb = onSnapshot(queueQuery, (snapshot) => {
 
@@ -95,44 +89,43 @@ function SupportAgentUI() {
 
 
                 queueDataArr.push(finalQueueDataObj);
-               
+
             });
 
             Promise.all(promises).then((d) => {
 
                 console.log(d[0].data().count);
 
-                    //set current records assigned to the agent
-                    setAgentCurrentRecordCount(d[0].data().count);
+                //set current records assigned to the agent
+                setAgentCurrentRecordCount(d[0].data().count);
 
 
                 setTimeout(() => {
-                    
+
                     //sort the oldest to newest. firebase doesnot support sort when query is on differnt field. i.e user
                     queueDataArr.sort((a, b) => {
                         return ((new Date(a.timestampDate).valueOf()) - (new Date(b.timestampDate).valueOf()));
                     })
 
-                    console.log( 'rec ocunt'+ agentCurrentRecordCount);
+                    console.log('rec ocunt' + agentCurrentRecordCount);
 
                     //push only if agent has capacity, company current records with agent limit set at APP level
-                    if(agentCurrentRecordCount < AGENT_CAPACITY)
+                    if (agentCurrentRecordCount < AGENT_CAPACITY)
                         setInboxRecords(queueDataArr);
-                },500)
+                }, 500)
             })
 
         });
 
         return () => unsubscribeFb();
 
-
+        // eslint-disable-next-line
     }, [rerender]);
 
     function selectFeature(featureName) {
 
         //close the opened record details
         setSelectedCheckInRecord('');
-
         setSelectedFeature(featureName);
 
     }
@@ -150,7 +143,7 @@ function SupportAgentUI() {
     }
 
     //trigger reredner when user closed their record, this is so that our inbox feature becomes realtime.
-    function triggerRerender(){
+    function triggerRerender() {
 
         //clear the selected record
         setSelectedCheckInRecord('');
@@ -160,7 +153,7 @@ function SupportAgentUI() {
     }
 
     //open the accepted record and assign to logged in agent
-    async function acceptRecord(){
+    async function acceptRecord() {
         //lets first assign to agent.
         const checkinRef = doc(firestore, 'checkIns', inboxRecords[0].id);
 
@@ -169,17 +162,13 @@ function SupportAgentUI() {
             stage: 'serving'
         });
 
-
         triggerRerender();
-
 
         //Now Open the record
         //assuming here that agent always accepts first record.
         //this LOGIC needs to be re-coded when we allow agent to work on multiple records.
         setSelectedCheckInRecord(inboxRecords[0].id);
     }
-
-
 
     return (
         <div className="support-agent-ui-comp">
@@ -188,50 +177,50 @@ function SupportAgentUI() {
                 {/* Icon Sidebar */}
                 <div className="sidebar">
                     <div className="wrapper mt-3">
-                        <div role='button' className={`icon-items position-relative my-2 ${selectedFeature == 'inbox' ? 'selected' : ''}`} onClick={() => { selectFeature('inbox') }}><span><i class="ri-inbox-2-line"></i></span>
-                        { (inboxRecords.length>0) && (agentCurrentRecordCount < AGENT_CAPACITY)  && <span class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger">{AGENT_CAPACITY}</span> } </div>
-                        <div role='button' className={`icon-items my-2 ${selectedFeature == 'list' ? 'selected' : ''}`} onClick={() => { selectFeature('list') }}><i class="ri-list-check"></i></div>
-                        <div role='button' className={`icon-items my-2 ${selectedFeature == 'reports' ? 'selected' : ''}`} onClick={() => { selectFeature('reports') }}><i class="ri-line-chart-line"></i></div>
+                        <div role='button' className={`icon-items position-relative my-2 ${selectedFeature === 'inbox' ? 'selected' : ''}`} onClick={() => { selectFeature('inbox') }}><span><i class="ri-inbox-2-line"></i></span>
+                            {(inboxRecords.length > 0) && (agentCurrentRecordCount < AGENT_CAPACITY) && <span class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger">{AGENT_CAPACITY}</span>} </div>
+                        <div role='button' className={`icon-items my-2 ${selectedFeature === 'list' ? 'selected' : ''}`} onClick={() => { selectFeature('list') }}><i class="ri-list-check"></i></div>
+                        <div role='button' className={`icon-items my-2 ${selectedFeature === 'reports' ? 'selected' : ''}`} onClick={() => { selectFeature('reports') }}><i class="ri-line-chart-line"></i></div>
                     </div>
                 </div>
 
                 {/* Reports Section */}
 
                 {/* Side Navigation */}
-              { (selectedFeature == 'list' || selectedFeature == 'inbox') && <div className="navigation">
+                {(selectedFeature === 'list' || selectedFeature === 'inbox') && <div className="navigation">
                     <div className="wrapper">
                         {/* List Content  */}
-                        {selectedFeature == 'list' && <div className="mt-4">
+                        {selectedFeature === 'list' && <div className="mt-4">
                             {/* <small className="text-body-secondary">
                                 Work
                             </small> */}
                             <div role='button' onClick={() => { selectNavMenu('assigned_me') }}
-                                className={`nav-menu-items my-3 ${selectedNavMenu == 'assigned_me' ? 'selected' : ''} `}>
+                                className={`nav-menu-items my-3 ${selectedNavMenu === 'assigned_me' ? 'selected' : ''} `}>
                                 <span><i class="ri-account-box-line"></i></span>  <span>Assigned to me</span>
                             </div>
                             <div role='button' onClick={() => { selectNavMenu('open_unassigned') }}
-                                className={`nav-menu-items my-3 ${selectedNavMenu == 'open_unassigned' ? 'selected' : ''} `}>
+                                className={`nav-menu-items my-3 ${selectedNavMenu === 'open_unassigned' ? 'selected' : ''} `}>
                                 <span><i class="ri-layout-left-2-line"></i></span>  <span>Open - Unassigned</span>
                             </div>
                             <div role='button' onClick={() => { selectNavMenu('future_apt') }}
-                                className={`nav-menu-items my-3 ${selectedNavMenu == 'future_apt' ? 'selected' : ''} `}>
+                                className={`nav-menu-items my-3 ${selectedNavMenu === 'future_apt' ? 'selected' : ''} `}>
                                 <span><i class="ri-calendar-schedule-line"></i></span>  <span>Future Appointments</span>
                             </div>
                             <div role='button' onClick={() => { selectNavMenu('all') }}
-                                className={`nav-menu-items my-3 ${selectedNavMenu == 'all' ? 'selected' : ''} `}>
+                                className={`nav-menu-items my-3 ${selectedNavMenu === 'all' ? 'selected' : ''} `}>
                                 <span><i class="ri-file-list-line"></i></span>  <span>All</span>
                             </div>
                         </div>}
 
                         {/* Inbox Content */}
-                        {selectedFeature == 'inbox' &&
+                        {selectedFeature === 'inbox' &&
                             <div>
-                              { ( (inboxRecords.length> 0) && (agentCurrentRecordCount < AGENT_CAPACITY) ) ?  <div className='card my-2'>
+                                {((inboxRecords.length > 0) && (agentCurrentRecordCount < AGENT_CAPACITY)) ? <div className='card my-2'>
                                     {/* <h3>{agentCurrentRecordCount}</h3>
                                     <h4>inbox record {inboxRecords.length}</h4> */}
                                     <div className='card-body'>
-                                    {inboxRecords[0].isAppointment && <small><span><i class="ri-calendar-event-line"></i> </span><span>Appointment</span></small>}
-                                    {!inboxRecords[0].isAppointment && <small><span><i class="ri-user-received-2-line"></i> </span><span>Check-in</span></small>}
+                                        {inboxRecords[0].isAppointment && <small><span><i class="ri-calendar-event-line"></i> </span><span>Appointment</span></small>}
+                                        {!inboxRecords[0].isAppointment && <small><span><i class="ri-user-received-2-line"></i> </span><span>Check-in</span></small>}
                                         <h5>{inboxRecords[0].reasonDetails.Label}</h5>
                                         <div>{inboxRecords[0].userDetails.displayName}</div>
                                     </div>
@@ -242,26 +231,24 @@ function SupportAgentUI() {
                                         <button className='btn btn-sm btn-outline-success px-5' onClick={acceptRecord}>Accept</button>
                                     </div>
                                 </div> :
-                                // Show empty state message
-                                <div>
-                                    <div className='tb-empty-inbox text-center mt-5'>
-                                        <div className='fs-1' style={{color:'#8789fe'}}>
-                                        <i class="ri-file-list-2-line"></i>
+                                    // Show empty state message
+                                    <div>
+                                        <div className='tb-empty-inbox text-center mt-5'>
+                                            <div className='fs-1' style={{ color: '#8789fe' }}>
+                                                <i class="ri-file-list-2-line"></i>
                                             </div>
                                             <div>
-                                               <b>No inbox items</b> 
-                                                </div>
-                                                <small>
-                                                    Work items will appear here, once they are assgined to you.
-                                                    </small>
-                                    </div>
-                                </div> }
+                                                <b>No inbox items</b>
+                                            </div>
+                                            <small>
+                                                Work items will appear here, once they are assgined to you.
+                                            </small>
+                                        </div>
+                                    </div>}
                             </div>}
 
-                       
-
                     </div>
-                </div> }
+                </div>}
 
             </div>
 
@@ -271,7 +258,7 @@ function SupportAgentUI() {
             <div className="right-side">
 
                 {/* Empty message when inbox is selected and no record is open */}
-                {selectedFeature == 'inbox' && !selectedCheckInRecord &&
+                {selectedFeature === 'inbox' && !selectedCheckInRecord &&
                     <div className='flex-grow-1 inbox-empty  d-flex justify-content-center align-items-center'>
                         <div className='flex-grow-1 text-center'>
                             <div className='display-2 text-primary'>
@@ -283,14 +270,10 @@ function SupportAgentUI() {
                             <div>Click on a card from the Inbox to see its details.</div>
                         </div>
 
-
-
                     </div>}
 
-                
-
                 {/* List of Records section - show only if any record is not selected */}
-                {selectedFeature == 'list' && !selectedCheckInRecord &&
+                {selectedFeature === 'list' && !selectedCheckInRecord &&
                     <SupportListRecords selectedNavMenu={selectedNavMenu} navMenuDisplayName={selectedNavMenuDisplayName} setSelectedCheckInRecord={setSelectedCheckInRecord}></SupportListRecords>
                 }
 
@@ -298,8 +281,8 @@ function SupportAgentUI() {
                 {selectedCheckInRecord &&
                     <SupportRecordDetails recordId={selectedCheckInRecord} triggerRerender={triggerRerender}></SupportRecordDetails>}
 
-                 {/* Reports Content */}
-                 {selectedFeature == 'reports' && <ReportsUI></ReportsUI> }
+                {/* Reports Content */}
+                {selectedFeature === 'reports' && <ReportsUI></ReportsUI>}
 
             </div>
 

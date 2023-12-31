@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { firestore, auth } from "../services/firebase";
+import { firestore } from "../services/firebase";
 
-import { collection, onSnapshot, query, doc, getDoc, where, addDoc, Timestamp, getCountFromServer, updateDoc } from "firebase/firestore";
+import { collection, onSnapshot, query, doc, getDoc, where, addDoc, Timestamp, updateDoc } from "firebase/firestore";
 
 import { AppointmentPicker } from 'react-appointment-picker';
-
 import Modal from 'react-bootstrap/Modal';
-import Toast from 'react-bootstrap/Toast';
-
-import { Form, Button, ToastContainer } from 'react-bootstrap';
-
+import { Form, Button } from 'react-bootstrap';
 import moment from 'moment';
 
 import appContext from '../context/context';
@@ -20,7 +16,7 @@ function BookAppointment() {
 
     const [reasons, setReasons] = useState([]);
     const [selectedReason, setSelectedReason] = useState('');
-    const [selectedAptType , setSelectedAptType] = useState('in_person');
+    const [selectedAptType, setSelectedAptType] = useState('in_person');
 
     //stores list of upcoming appointments of the user
     const [aptList, setAptList] = useState([]);
@@ -31,12 +27,7 @@ function BookAppointment() {
     const [aptBookedMsg, setAptBookedMsg] = useState(false);
     const [aptCancelMsg, setAptCancelMsg] = useState(false);
 
-
-
     const [showPopup, setShowPopup] = useState(false);
-
-
-
 
     const loading = false;
 
@@ -64,7 +55,7 @@ function BookAppointment() {
 
             var finalAptDataObj = {};
 
-            const apptArr = snapshot.docs.forEach(async (doc) => {
+            snapshot.docs.forEach(async (doc) => {
 
 
                 let reasonDoc = getDoc(doc.data().reason);
@@ -110,18 +101,16 @@ function BookAppointment() {
                 })
             })
 
-
-
-
         });
 
-        console.log(aptList);
 
 
         return () => {
             unsubsribeCheckIns();
             unsubscribeReasons();
         };
+
+        // eslint-disable-next-line
     }, []);
 
 
@@ -148,7 +137,7 @@ function BookAppointment() {
                 null, null, null, null, null, null, null, null, null, null, null, null];
 
             for (let j = 1; j < 9; j++) {
-                var dayObj = { id: aa.valueOf(), number: j, periods: 4, isSelected: (aa.valueOf() == aptDate) };
+                var dayObj = { id: aa.valueOf(), number: j, periods: 4, isSelected: (aa.valueOf() === aptDate) };
                 dayArr.push(dayObj);
                 aa.setHours(aa.getHours() + 1);
             }
@@ -254,7 +243,7 @@ function BookAppointment() {
         }, 3000);
     }
 
-    
+
 
     return (
         <div className='tb-appointment-component  mx-5 mb-5'>
@@ -287,8 +276,8 @@ function BookAppointment() {
                     type="radio"
                     id="inperson"
                     value="in_person"
-                    onChange={()=>{setSelectedAptType('in_person')}}
-                    checked={selectedAptType == 'in_person'}
+                    onChange={() => { setSelectedAptType('in_person') }}
+                    checked={selectedAptType === 'in_person'}
                 />
 
                 <Form.Check
@@ -298,19 +287,9 @@ function BookAppointment() {
                     type="radio"
                     id="remote"
                     value="remote"
-                    onChange={()=>{setSelectedAptType('remote')}}
-                    checked={selectedAptType == 'remote'}
+                    onChange={() => { setSelectedAptType('remote') }}
+                    checked={selectedAptType === 'remote'}
                 />
-
-                {/* <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inperson" value="in_person" checked/>
-                    <label class="form-check-label" for="inperson">In-person</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="remote" value="remote" />
-                    <label class="form-check-label" for="remote">Remote</label>
-                </div> */}
-
 
                 <div className='mt-4'>
                     <button className='btn btn-primary shadow' disabled={!(aptDate && selectedReason)} onClick={storeAptFirebase}>Schedule appointment</button>
@@ -333,7 +312,7 @@ function BookAppointment() {
                     Your appointment has been cancelled!
                 </div>}
 
-                {aptList.length == 0 && <div className='alert alert-light'>
+                {aptList.length === 0 && <div className='alert alert-light'>
                     You do not have any upcoming appointments!
                 </div>}
 
@@ -342,8 +321,8 @@ function BookAppointment() {
                     <div className='card px-3 py-3 mb-2'>
                         <div className='d-flex justify-content-between'>
                             <div><span><b>Reason:</b> </span> <span>{aptObj.reasonDetails.Label}</span></div>
-                            <div>{aptObj?.appointment_type == 'remote'? <span class="badge text-bg-dark">Remote</span> : <span class="badge text-bg-dark">In-person</span>} </div>
-                            
+                            <div>{aptObj?.appointment_type === 'remote' ? <span class="badge text-bg-dark">Remote</span> : <span class="badge text-bg-dark">In-person</span>} </div>
+
                         </div>
                         <div>
                             <div class="input-group mt-3" >

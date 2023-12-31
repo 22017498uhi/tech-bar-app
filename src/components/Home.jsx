@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { firestore, auth } from "../services/firebase";
+import { firestore } from "../services/firebase";
 
-import { collection, onSnapshot, query, doc, getDoc, where, addDoc, Timestamp } from "firebase/firestore";
-
+import { collection, onSnapshot, query } from "firebase/firestore";
 
 import appContext from '../context/context';
 import ScreenUserSelection from './ScreenUserSelection';
@@ -15,14 +14,10 @@ function Home() {
     const { loggedInUser, selectedAppLocation, updateSelectedAppLocation } = useContext(appContext); //updates logged in user when auth state changes, logged in user is used by other components
 
     const [locations, setLocations] = useState([]);
-    const [selectedLocation, setSelectedLocation] = useState('');
+    const [selectedLocation] = useState('');
 
 
     useEffect(() => {
-
-
-
-        console.log(selectedAppLocation);
 
 
         let locationsQuery = query(collection(firestore, "locations"));
@@ -38,6 +33,8 @@ function Home() {
         return () => {
             unsubscribeLocations();
         };
+
+        // eslint-disable-next-line
     }, []);
 
 
@@ -45,7 +42,7 @@ function Home() {
 
         //find location Obj with this Id
         let selectedLocationObj = locations.find((ele) => {
-            return ele.id == locatonId;
+            return ele.id === locatonId;
         })
 
         if (selectedLocationObj)
@@ -66,14 +63,12 @@ function Home() {
 
                     {/* Appointment User Message */}
                     <div className='mb-2'>
-                       {!loggedInUser?.supportAgent == true && <h1>Welcome to Tech Bar!</h1> }
-                       {loggedInUser?.supportAgent == true && <h3>Tech Bar Support</h3> }
+                        {!loggedInUser?.supportAgent === true && <h1>Welcome to Tech Bar!</h1>}
+                        {loggedInUser?.supportAgent === true && <h3>Tech Bar Support</h3>}
 
                     </div>
 
                     {!selectedAppLocation?.id && <div className="tb-location-section col-md-4">
-
-
 
                         <label className='mt-3 mb-1 form-label h5'>Please select location of the Tech Bar:</label>
                         <select required className='form-select shadow-sm' value={selectedLocation} onChange={(e) => setLocationState(e.target.value)}>
@@ -92,41 +87,32 @@ function Home() {
                 i.e user used for tablet and big tv for checkin, queue list and survey */}
                         <div className='card-header'>
                             <div>
-                                <span className="fs-3 me-2">{selectedAppLocation.label}</span>
-                                <span ><a href='#' className="tb-small-font" onClick={setLocationState}>Change location</a></span>
+                                <span className="fs-3 me-1">{selectedAppLocation.label}</span>
+                                <span ><button className="tb-small-font btn btn-link" onClick={setLocationState}>Change location</button></span>
                             </div>
                         </div>
 
                         <div className=''>
-                        {/* Screen user Section */}
-                        {loggedInUser?.screenUser && selectedAppLocation?.id && <div className='tb-screen-user-section mt-3 card-body'>
-                             <ScreenUserSelection></ScreenUserSelection>
-                        </div>}
+                            {/* Screen user Section */}
+                            {loggedInUser?.screenUser && selectedAppLocation?.id && <div className='tb-screen-user-section mt-3 card-body'>
+                                <ScreenUserSelection></ScreenUserSelection>
+                            </div>}
 
-                        {/* Normal user Appointment Section - show if its not screen user or support agent */}
-                        { (!loggedInUser?.screenUser &&  !loggedInUser?.supportAgent) && selectedAppLocation?.id && <div className='tb-appointment-section mt-3 card-body'>
-                             <BookAppointment></BookAppointment>
-                        </div> }
+                            {/* Normal user Appointment Section - show if its not screen user or support agent */}
+                            {(!loggedInUser?.screenUser && !loggedInUser?.supportAgent) && selectedAppLocation?.id && <div className='tb-appointment-section mt-3 card-body'>
+                                <BookAppointment></BookAppointment>
+                            </div>}
 
-                        {/* Support Agent Section */}
-                        {loggedInUser?.supportAgent && selectedAppLocation?.id &&  <div className='tb-supportagent-section'>
-                           <SupportAgentUI></SupportAgentUI>
-                        </div>}
-
+                            {/* Support Agent Section */}
+                            {loggedInUser?.supportAgent && selectedAppLocation?.id && <div className='tb-supportagent-section'>
+                                <SupportAgentUI></SupportAgentUI>
+                            </div>}
 
                         </div>
 
                     </div>}
 
-
-
                 </div>
-
-
-
-
-
-
             </div>
         </div>
 
